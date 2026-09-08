@@ -1,8 +1,59 @@
-//const TOKEN = "";
+/* =========================================
+   CONFIGURACIÓN MSAL (Azure AD - ALFERZA)
+   ========================================= */
+
+const msalConfig = {
+    auth: {
+        clientId: "5d98417c-74a7-4fab-8f2c-41ac127be696",
+        authority: "https://login.microsoftonline.com/dbab984f-4bb1-4b60-9dff-da59f54acdf1",
+        redirectUri: "https://alvaroalferza.github.io/live-office/blank.html"
+    },
+    cache: {
+        cacheLocation: "sessionStorage"
+    }
+};
+
+const scopes = ["User.Read", "Presence.Read.All"];
+
+const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+/* Pide el token: usa una sesión existente si la hay,
+   o abre el popup de login la primera vez. */
+async function obtenerToken() {
+
+    let cuenta = msalInstance.getAllAccounts()[0];
+
+    if (!cuenta) {
+        const loginResponse = await msalInstance.loginPopup({ scopes });
+        cuenta = loginResponse.account;
+    }
+
+    try {
+        const response = await msalInstance.acquireTokenSilent({
+            scopes,
+            account: cuenta
+        });
+        return response.accessToken;
+
+    } catch (error) {
+        // Si el token silencioso falla (expiró la sesión, etc.), reintenta con popup
+        const response = await msalInstance.acquireTokenPopup({ scopes });
+        return response.accessToken;
+    }
+}
+
+
+/* =========================================
+   LÓGICA ORIGINAL (igual que antes, solo
+   cambia de dónde sale el TOKEN)
+   ========================================= */
+
 async function cargarUsuarios() {
 
     const contenedor = document.getElementById("officeGrid");
     contenedor.innerHTML = "";
+
+    const TOKEN = await obtenerToken();
 
     const respuesta = await fetch(
         "https://graph.microsoft.com/v1.0/users?$top=999",
