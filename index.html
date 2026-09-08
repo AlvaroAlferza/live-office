@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>ALFERZA LIVE OFFICE</title>
+
+<!-- Estilos -->
+<link rel="stylesheet" href="styles.css">
+
+
+</head>
+
+<body>
+
+<!-- BARRA SUPERIOR -->
+<header class="topbar">
+
+    <div class="logo">
+        <h1>ALFERZA LIVE OFFICE</h1>
+        <span>Monitoreo en tiempo real</span>
+    </div>
+
+    <div class="search-container">
+        <input
+            type="text"
+            id="buscador"
+            placeholder="Buscar trabajador..."
+            autocomplete="off"
+        >
+    </div>
+
+</header>
+
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="container">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+
+        <h2>MENÚ</h2>
+
+        <ul>
+            <li>🏢 Oficina</li>
+            <li>👥 Personal</li>
+            <li>📅 Salas</li>
+            <li>📢 Comunicados</li>
+            <li>⚙️ Configuración</li>
+        </ul>
+
+    </aside>
+
+
+    <!-- CONTENIDO -->
+    <main class="content">
+
+        <!-- ESTADÍSTICAS -->
+        <section class="stats">
+
+            <div
+                class="stat green"
+                onclick="filtrarEstado('Available')"
+            >
+                <span id="disp">0</span>
+                <small>Disponibles</small>
+            </div>
+
+            <div
+                class="stat red"
+                onclick="filtrarEstado('Busy')"
+            >
+                <span id="busy">0</span>
+                <small>Ocupados</small>
+            </div>
+
+            <div
+                class="stat yellow"
+                onclick="filtrarEstado('Away')"
+            >
+                <span id="away">0</span>
+                <small>Ausentes</small>
+            </div>
+
+            <div
+                class="stat gray"
+                onclick="filtrarEstado('Offline')"
+            >
+                <span id="offline">0</span>
+                <small>Offline</small>
+            </div>
+
+        </section>
+
+
+        <!-- PERSONAL -->
+        <section>
+
+            <h2 class="section-title">
+                Personal de ALFERZA
+            </h2>
+
+            <div id="officeGrid">
+                <!-- Los trabajadores se cargarán desde app.js -->
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- PIE DE PÁGINA -->
+<footer>
+    ALFERZA LIVE OFFICE · Teams Presence Dashboard
+</footer>
+
+
+<!-- Microsoft Authentication Library (MSAL) -->
+<body>
+
+    <!-- Todo tu contenido -->
+
+    <script src="https://alcdn.msauth.net/browser/2.38.1/js/msal-browser.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</body>
+
+</html>
