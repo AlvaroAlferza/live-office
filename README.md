@@ -12,4 +12,4 @@ Aplicación web para monitorear en tiempo real la disponibilidad y presencia de 
 
 ## Vista previa
 
-image/dashboard.png
+img/dashboard.png
