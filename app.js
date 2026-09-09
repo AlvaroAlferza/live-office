@@ -77,42 +77,40 @@ async function cargarUsuarios() {
     let ausentes = 0;
     let offline = 0;
 
-    const usuariosConPresencia = await Promise.all(
+    /* Una sola llamada trae la presencia de todos (hasta 650 ids por request) */
 
-        usuarios.map(async usuario => {
+    const idsUsuarios = usuarios.map(u => u.id);
 
-            try {
+    let presenciaPorId = {};
 
-                const presenciaResponse = await fetch(
-                    `https://graph.microsoft.com/v1.0/users/${usuario.id}/presence`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${TOKEN}`
-                        }
-                    }
-                );
+    try {
 
-                const presencia = await presenciaResponse.json();
-
-                return {
-                    usuario,
-                    presencia
-                };
-
-            } catch {
-
-                return {
-                    usuario,
-                    presencia: {
-                        availability: "Offline"
-                    }
-                };
-
+        const presenciaResponse = await fetch(
+            "https://graph.microsoft.com/v1.0/communications/getPresencesByUserId",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${TOKEN}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ ids: idsUsuarios })
             }
+        );
 
-        })
+        const presenciaData = await presenciaResponse.json();
 
-    );
+        (presenciaData.value || []).forEach(p => {
+            presenciaPorId[p.id] = p;
+        });
+
+    } catch {
+        // Si falla el batch, todos quedan como Offline por defecto (fallback abajo)
+    }
+
+    const usuariosConPresencia = usuarios.map(usuario => ({
+        usuario,
+        presencia: presenciaPorId[usuario.id] || { availability: "Offline" }
+    }));
 
     let html = "";
 
