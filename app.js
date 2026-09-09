@@ -50,6 +50,9 @@ async function obtenerToken() {
 
 async function cargarUsuarios() {
 
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.classList.remove("oculto");
+
     const contenedor = document.getElementById("officeGrid");
     contenedor.innerHTML = "";
 
@@ -167,6 +170,8 @@ async function cargarUsuarios() {
     document.getElementById("busy").innerText = ocupados;
     document.getElementById("away").innerText = ausentes;
     document.getElementById("offline").innerText = offline;
+
+    overlay.classList.add("oculto");
 }
 
 cargarUsuarios();

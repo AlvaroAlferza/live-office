@@ -256,3 +256,63 @@ footer{
 
     font-size:13px;
 }
+/* ========== PANTALLA DE CARGA ========== */
+
+.loading-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(238,242,247,0.97);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:18px;
+
+    z-index:9999;
+
+    transition:opacity .3s ease;
+}
+
+.loading-overlay.oculto{
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+.gear-spinner{
+
+    font-size:56px;
+
+    animation:girar 1.4s linear infinite;
+}
+
+@keyframes girar{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.loading-overlay p{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#0f172a;
+
+    letter-spacing:.3px;
+}
